@@ -14,7 +14,7 @@ class Notifier {
     }
 
 public:
-    enum class EventType {
+    enum class EventType: unsigned{
         ACCESS = 0x00000001,
         MODIFY = 0x00000002,
         ATTRIB = 0x00000004,
@@ -29,8 +29,66 @@ public:
         MOVE_SELF = 0x00000800,
         UNMOUNT = 0x00002000,
         Q_OVERFLOW = 0x00004000,
-        IGNORED = 0x00008000
+        IGNORED = 0x00008000,
+        DIRECTORY_MODIFIER = 0x40000000
     };
+
+
+
+    static const char* toString(EventType evtType) {
+        switch((EventType)((unsigned)evtType^(unsigned)EventType::DIRECTORY_MODIFIER)) {
+        case EventType::ACCESS:
+            return "ACCESS";
+            break;
+        case EventType::MODIFY:
+            return "MODIFY";
+            break;
+        case EventType::ATTRIB:
+            return "ATTRIB";
+            break;
+        case EventType::CLOSE_WRITE:
+            return "CLOSE_WRITE";
+            break;
+        case EventType::CLOSE_NOWRITE:
+            return "CLOSE_NOWRITE";
+            break;
+        case EventType::OPEN:
+            return "OPEN";
+            break;
+        case EventType::MOVED_FROM:
+            return "MOVED_FROM";
+            break;
+        case EventType::MOVED_TO:
+            return "MOVED_TO";
+            break;
+        case EventType::CREATE:
+            return "CREATE";
+            break;
+        case EventType::DELETE:
+            return "DELETE";
+            break;
+        case EventType::DELETE_SELF:
+            return "DELETE_SELF";
+            break;
+        case EventType::MOVE_SELF:
+            return "MOVE_SELF";
+            break;
+        case EventType::UNMOUNT:
+            return "UNMOUNT";
+            break;
+        case EventType::Q_OVERFLOW:
+            return "Q_OVERFLOW";
+            break;
+        case EventType::IGNORED:
+            return "IGNORED";
+            break;
+        default:
+            // unreached, but if reached shit happened
+            return "UNKNOWN";
+            break;
+        }
+        return "UNKNOWN";
+    }
 
     static const int DEFAULT_WATCH_FLAGS = (IN_CREATE | IN_DELETE | IN_MODIFY);
     struct Event {
