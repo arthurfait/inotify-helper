@@ -15,9 +15,10 @@ int main(int argc, char const *argv[])
         printf("missing argument\n");
         return -1;
     }
-    Notifier noti(argv[1], [](Notifier::Event evt){
-        printf("path %s, file: %s type: %s(%u) \n", evt.path.c_str(), evt.file.c_str(), Notifier::toString(evt.type), evt.type);
+    inotify::Notifier noti(argv[1], [](inotify::Notifier::Event evt){
+        printf("path %s, file: %s type: %s(%x) \n", evt.path.c_str(), evt.file.c_str(), inotify::toString(evt.type), evt.type);
     });
-    noti.listen();
+    noti.listen_async();
+    sleep(100);
     return 0;
 }

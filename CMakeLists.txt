@@ -16,3 +16,4 @@ set(HELPER_SOURCES
 
 
 add_executable(helper_test ${HELPER_SOURCES})
+target_link_libraries(helper_test pthread)
